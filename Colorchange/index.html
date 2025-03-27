@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Background Color Change</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+  <div class="flex flex-col items-center justify-center h-screen">
+    <h1 class="text-3xl font-bold text-white mb-6">Background Color Changer</h1>
+    <button
+      class="px-6 py-3 bg-white cursor-pointer text-black font-semibold rounded-xl shadow-lg hover:bg-gray-300 transition-all duration-300">
+      Change Background
+    </button>
+    <div id="colour-template flex items-center justify-center">
+      <h4 class="my-3 text-xl  hidden">Rgb: <span id="rgb-Color"></span></h4>
+      <h4 class="my-3 text-xl  hidden">Hex: <span id="hex-Color"></span></h4>
+    </div>
+  </div>
+  <script>
+    const button = document.querySelector("button");
+    const rgbText = document.querySelector("#rgb-Color");
+    const hexText = document.querySelector("#hex-Color");
+    function rgbToHex(r, g, b) {
+      const toHex = (c) => c.toString(16).padStart(2, "0").toUpperCase();
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
+    button.addEventListener("click", () => {
+      const redColor = Math.floor(Math.random() * 255);
+      const blurColor = Math.floor(Math.random() * 255);
+      const greenColor = Math.floor(Math.random() * 255);
+      const rgbcolour = `rgb(${redColor},${greenColor},${blurColor})`;
+      const hexcolour = rgbToHex(redColor, greenColor, blurColor);
+      document.body.style.backgroundColor = rgbcolour;
+      rgbText.parentElement.style.display = "block";
+      hexText.parentElement.style.display = "block"
+      rgbText.textContent = rgbcolour;
+      hexText.textContent = hexcolour
+    })
+  </script>
+</body>
+
+</html>
