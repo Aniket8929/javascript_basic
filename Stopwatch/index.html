@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+
+  <div class="bg-white/10 p-8 rounded-xl shadow-lg backdrop-blur-md text-center border border-white/20">
+    <h1 class="text-3xl font-bold mb-4">⏱ Stopwatch</h1>
+    <p id="display" class="text-5xl font-mono font-semibold">00:00:00</p>
+
+    <div id="btns" class="mt-6 space-x-3">
+      <button id="Start"
+        class="px-5 py-2 text-lg font-semibold bg-green-500 hover:bg-green-600 text-white rounded-lg shadow-md">Start</button>
+      <button id="Stop"
+        class="px-5 py-2 text-lg font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md">Stop</button>
+      <button id="Reset"
+        class="px-5 py-2 text-lg font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-md">Reset</button>
+    </div>
+  </div>
+  <script>
+    const Start = document.querySelector("#Start");
+    const Stopbtn = document.querySelector("#Stop");
+    const Reset = document.querySelector("#Reset");
+    const display = document.querySelector("#display");
+
+
+    // varable 
+    let seconds = 0, minutes = 0, hours = 0;
+    let clearId = null;
+    function updateTimer() {
+      let hoursString = hours <= 9 ? `0${hours}` : hours;
+      let minutesString = minutes <= 9 ? `0${minutes}` : minutes;
+      let secondsString = seconds <= 9 ? `0${seconds}` : seconds;
+
+      return `${hoursString}:${minutesString}:${secondsString}`
+    }
+
+    function Startgame() {
+      clearId = setInterval(() => {
+        seconds++; // Increment seconds
+        if (seconds === 60) {
+          seconds = 0; // Reset seconds
+          minutes++;   // Increment minutes
+        }
+        if (minutes === 60) {
+          minutes = 0; // Reset minutes
+          hours++;     // Increment hours
+        }
+        if (hours === 60) {
+          hours = 0; // Reset hours
+        }
+        display.innerText = updateTimer();
+      }, 1000);
+    }
+    Start.addEventListener("click", () => {
+      if (!clearId) {
+        Startgame();
+      }
+    });
+    Stopbtn.addEventListener("click", () => {
+      clearInterval(clearId);
+      clearId = null;
+    })
+    Reset.addEventListener("click", () => {
+      seconds = 0, minutes = 0, hours = 0;
+      display.innerText = updateTimer();
+      clearInterval(clearId);
+      clearId = null;
+    })
+  </script>
+</body>
+
+</html>
