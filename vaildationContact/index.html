@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Contact</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="form-container">
+    <form id="myForm">
+      <div class="form-group" id="nameBox">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="error-text">error</p>
+      </div>
+
+      <div class="form-group" id="emailbox">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="error-text">error</p>
+      </div>
+
+      <div class="form-group" id="passwordbox">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="error-text">error</p>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    const myForm = document.querySelector("#myForm");
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+
+    const validate = () => {
+      let isValid = true; // To track form validation status
+
+      const namevalue = name.value.trim();
+      const emailvalue = email.value.trim();
+      const passwordvalue = password.value.trim();
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      // ✅ Name Validation
+      if (namevalue === "") {
+        errorfun(name, "Name cannot be empty");
+        isValid = false;
+      } else if (namevalue.length < 3) {
+        errorfun(name, "Name must be at least 3 characters long");
+        isValid = false;
+      } else {
+        successfun(name);
+      }
+
+      // ✅ Email Validation
+      if (emailvalue === "") {
+        errorfun(email, "This field cannot be empty!");
+        isValid = false;
+      } else if (!emailPattern.test(emailvalue)) {
+        errorfun(email, "Enter a valid email address!");
+        isValid = false;
+      } else {
+        successfun(email);
+      }
+
+      // ✅ Password Validation (Should contain letters, numbers, and be at least 8 characters long)
+      if (passwordvalue === "") {
+        errorfun(password, "This field cannot be empty!");
+        isValid = false;
+      } else if (passwordvalue.length < 8) {
+        errorfun(password, "Password must be at least 8 characters long");
+        isValid = false;
+      } else if (!/[A-Za-z]/.test(passwordvalue) || !/[0-9]/.test(passwordvalue)) {
+        errorfun(password, "Password must contain both letters and numbers!");
+        isValid = false;
+      } else {
+        successfun(password);
+      }
+
+      return isValid; // Return form validation status
+    };
+
+    //  Error function
+    const errorfun = (errorelm, errormessage) => {
+      const parentelm = errorelm.parentNode;
+      parentelm.classList.add("error");
+      parentelm.classList.remove("success");
+
+      const errortext = parentelm.querySelector(".error-text");
+      if (errortext) {
+        errortext.innerText = errormessage;
+      }
+    };
+
+    // Success function
+    const successfun = (input) => {
+      const parentelm = input.parentNode;
+      parentelm.classList.remove("error");
+      parentelm.classList.add("success");
+    };
+
+    //  Form Submission If Errors Exist
+    myForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const successfully = validate();
+      if (successfully) {
+        // alert("Form submitted successfully!");
+        myForm.innerText = "Form submitted successfully! ✅"
+      }
+    });
+  </script>
+</body>
+
+</html>
