@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-blue-500 flex items-center justify-center h-screen text-white">
+  <div class="text-center p-6 bg-slate-800 rounded-lg shadow-lg max-w-md w-full">
+    <h1 class="font-bold text-4xl mb-4 text-orange-400">Guess the Number</h1>
+    <p class="font-semibold text-xl mb-3">Pick a number from <span class="text-orange-300">1 to 100</span></p>
+
+    <p id="guess-text" class="my-3 text-lg">Your Guess: -<span class="font-bold"></span></p>
+
+    <form class="flex gap-2" id="guess-form">
+      <input type="number" id="guess-input" min="1" max="100" required
+        class="grow p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black">
+      <button type="submit"
+        class="bg-orange-500 px-4 py-3 rounded-lg font-medium hover:bg-orange-600 transition">Submit</button>
+    </form>
+
+    <p id="result-text" class="text-xl m-4 font-medium">Make your guess! <span></span></p>
+    <button id="reset-btn"
+      class="bg-red-500 px-4 py-3 hidden rounded-lg font-medium hover:bg-red-600 transition w-full cursor-pointer">Reset</button>
+  </div>
+  <script>
+    const input = document.querySelector("#guess-input");
+    const form = document.querySelector("form");
+    const result = document.querySelector("#result-text span");
+    const guessText = document.querySelector("#guess-text span");
+    const resetBtn = document.querySelector("#reset-btn");
+
+    let randomnumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+    let userdata = [];
+
+
+    function reset() {
+      randomnumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      userdata = [];
+      result.textContent = "-";
+      guessText.textContent = "";
+      guessText.style.color = "black";
+      // Show reset button after  reset btn  click 
+      resetBtn.style.display = "none";
+    }
+
+    function playgame() {
+      const uservalue = Number(input.value);
+      input.value = "";
+
+      // Show reset button after first guess
+      resetBtn.style.display = "block";
+      // user interface
+      attempts++;
+      userdata.push(uservalue);
+      result.textContent = userdata.join(", ");  // the array convet into string
+
+      // win condition
+      if (uservalue === randomnumber) {
+        guessText.textContent = `🎉 You win! It took ${attempts} attempts.`;
+        guessText.style.color = "green";
+      } else if (uservalue > randomnumber) {
+        guessText.textContent = "📉 Too high! Try again.";
+        guessText.style.color = "red";
+      } else {
+        guessText.textContent = "📈 Too low! Try again.";
+        guessText.style.color = "red";
+      }
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      playgame();
+    });
+    resetBtn.addEventListener("click", reset);
+
+
+
+  </script>
+</body>
+
+</html>
