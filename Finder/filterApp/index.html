@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stylish Filter App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .buttons {
+      margin-bottom: 20px;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      background-color: #3498db;
+      color: white;
+      transition: 0.3s ease-in-out;
+    }
+
+    .buttons button:hover {
+      background-color: #2980b9;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .item {
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      display: none;
+      transition: all 0.3s ease;
+    }
+
+    .fruit {
+      background-color: #e67e22;
+    }
+
+    .vegetable {
+      background-color: #2ecc71;
+    }
+
+    .show {
+      display: block;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Filter Items by Category</h1>
+
+  <div class="buttons">
+    <button onclick="filterItems('all')">All</button>
+    <button onclick="filterItems('fruit')">Fruits</button>
+    <button onclick="filterItems('vegetable')">Vegetables</button>
+  </div>
+
+  <div class="container">
+    <div class="item fruit">🍎 Apple</div>
+    <div class="item fruit">🍌 Banana</div>
+    <div class="item vegetable">🥕 Carrot</div>
+    <div class="item vegetable">🥦 Broccoli</div>
+    <div class="item fruit">🍊 Orange</div>
+    <div class="item vegetable">🌽 Corn</div>
+  </div>
+
+  <script>
+    function filterItems(category) {
+
+      let items = document.querySelectorAll('.item');
+
+      items.forEach(item => {
+        item.classList.remove('show');
+
+        if (category === 'all' || item.classList.contains(category)) {
+          item.classList.add('show');
+        }
+      });
+    }
+
+    // Show all items by default
+    filterItems('all');
+  </script>
+
+</body>
+
+</html>
