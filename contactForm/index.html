@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Contact us</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+</head>
+
+<body>
+  <div class="container">
+    <div class="contact-box">
+      <div class="left"></div>
+      <div class="right">
+        <h2>Contact Us</h2>
+        <div class="input-box">
+          <label for="">Your Name</label>
+          <input type="text" class="field" placeholder="Your Name" id="name-input">
+          <span class="name-error"></span>
+        </div>
+        <div class="input-box">
+          <label for="">Email</label>
+          <input type="text" class="field" placeholder="Your Email" id="input-Email">
+          <span class="email-error"></span>
+        </div>
+        <div class="input-box">
+          <label for="">Phone NO:</label>
+          <input type="text" class="field" placeholder="Phone" id="input-Phone">
+          <span class="phone-error"></span>
+        </div>
+        <div class="input-box">
+          <label for="">Leave Message </label>
+          <textarea placeholder="Message" class="field"></textarea>
+        </div>
+        <button class="btn">Send</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const btn = document.querySelector(".btn");
+    // test() method check kata hai regex value  string se match ho rahe hai ya nhi aur ya true ya false return karta hai
+    // Name validation
+    const validateName = () => {
+      const name = document.getElementById("name-input").value.trim();
+      const nameError = document.querySelector(".name-error");
+
+      if (name === "") {
+        nameError.innerText = "Please enter your name";
+        return false;
+      }
+
+      nameError.innerText = "";
+      return true;
+    };
+
+    // Email validation
+    const validateEmail = () => {
+      const email = document.getElementById("input-Email").value.trim();
+      const emailError = document.querySelector(".email-error");
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+
+      if (email === "") {
+        emailError.innerText = "Please enter your email";
+        return false;
+      } else if (!emailPattern.test(email)) {
+        emailError.innerText = "Please enter a valid email address";
+        return false;
+      }
+
+      emailError.innerText = "";
+      return true;
+    };
+
+    // Phone number validation
+    const validatePhoneNO = () => {
+      const phone = document.getElementById("input-Phone").value.trim();
+      const phoneError = document.querySelector(".phone-error");
+
+      if (phone === "") {
+        phoneError.innerText = "Please enter your phone number";
+        return false;
+      } else if (isNaN(phone)) {
+        phoneError.innerText = "Phone number should contain only digits";
+        return false;
+      } else if (phone.length < 10) {
+        phoneError.innerText = "Phone number must be at least 10 digits long";
+        return false;
+      }
+
+      phoneError.innerText = "";
+      return true;
+    };
+
+    // Event Listener
+    if (btn) {
+      btn.addEventListener("click", (event) => {
+        event.preventDefault(); 
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isPhoneValid = validatePhoneNO();
+
+        if (isNameValid && isEmailValid && isPhoneValid) {
+          alert("Form submitted successfully!");
+          // btn.disabled;
+        }
+      });
+    }
+
+
+  </script>
+</body>
+
+</html>
