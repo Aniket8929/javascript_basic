@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soch le ache se!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-pink-100">
+
+    <div class="p-6 rounded-xl  text-center w-[420px] ">
+        <!-- Cute video -->
+        <video id="panda-video" autoplay loop muted src=""
+            class="mx-auto w-36 h-36 rounded-lg object-cover bg-black"></video>
+
+        <!-- Text -->
+        <h1 id="message" class="text-xl font-bold mt-4 text-gray-800"></h1>
+        <p id="description" class="text-gray-600 text-sm"></p>
+
+        <!-- Buttons -->
+        <div class="mt-4 flex justify-center space-x-4">
+            <button id="yes-btn"
+                class="px-5 py-2 text-sm font-semibold bg-gray-200 hover:bg-gray-300 rounded-lg shadow"></button>
+            <button id="no-btn"
+                class="px-5 py-2 text-sm font-semibold bg-gray-200 hover:bg-gray-300 rounded-lg shadow"></button>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            {
+                id: 1,
+                videoscr: "https://media.tenor.com/p_VEcmrBsLMAAAPo/manja.mp4",
+                message: "Will you be my Valentine? 💖",
+                description: "Make my day special!",
+                buttons: ["Of course! 😍", "Let me think 🤔"]
+            },
+            {
+                id: 2,
+                videoscr: "https://media.tenor.com/dltr8Wx24g8AAAPo/mochi.mp4",
+                message: "Please think again! 🙄",
+                description: "itni jaldi nahi matt bolo😥",
+                buttons: ["Yes", "No"]
+            },
+            {
+                id: 3,
+                videoscr: "https://media.tenor.com/tzvzrz4famQAAAPo/couple-forgive-me.mp4",
+                message: "Ek aur baar Soch le!🏕️",
+                description: "kyu aisa kar rahi ho 😣",
+                buttons: ["Yes, let's go!", "No"]
+            },
+            {
+                id: 4,
+                videoscr: "https://media.tenor.com/3bDvSVpiwjoAAAPo/peach-goma-phone.mp4",
+                message: "Baby Man jao na! Kitna bhav khaogi 😭",
+                description: "bhut glt baat hai yaar😭",
+                buttons: ["chai thik hai", "No"]
+            },
+            {
+                id: 5,
+                videoscr: "https://media.tenor.com/A4Lvk69JMJkAAAPo/mochi-cat.mp4",
+                message: "Hehehehe, I knew it! Love you a lot 😘"
+            },
+        ];
+        const videotag = document.getElementById("panda-video"); // `video` element hona chahiye
+        const message = document.getElementById("message");
+        const description = document.getElementById("description");
+        const Buttons = document.querySelectorAll("button");
+        const [yesbtn, nobtn] = Buttons;
+        let increment = 0;
+
+
+        function showMessage(dataobject, index) {
+            const displaydata = dataobject[index];
+
+            // Display video in HTML
+            if (displaydata.videoscr) {
+                videotag.src = displaydata.videoscr;
+            }
+            if (displaydata.message) {
+                message.innerText = displaydata.message;
+            }
+            if (displaydata.description) {
+                description.innerText = displaydata.description;
+            }
+
+
+            // Agar `buttons` array exist karta hai tabhi update karein
+            if (displaydata.buttons) {
+                Buttons.forEach((element, index) => {
+                    if (displaydata.buttons[index] !== undefined) {
+                        element.textContent = displaydata.buttons[index];
+                        element.style.display = "inline-block"; // Show button
+                    }
+                });
+            } else {
+                // Agar `buttons` nahi hai, to buttons hide kar do
+                Buttons.forEach((element) => {
+                    element.style.display = "none";
+                });
+            }
+        }
+
+
+        // Pehli message show karein
+        showMessage(data, increment);
+        // moveRandom in the viewprot
+        function moveRandom(element) {
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            const randomX = Math.random() * (viewportWidth - element.clientWidth);
+            const randomY = Math.random() * (viewportHeight - element.clientHeight);
+
+            element.style.position = "absolute";
+            element.style.left = `${randomX}px`;
+            element.style.top = `${randomY}px`;
+        }
+
+        function handleNoClick() {
+            if (increment < data.length - 2) {
+                increment++;
+                showMessage(data, increment);
+            } else {
+
+                // Ab mouse enter pe button move hoga
+                nobtn.addEventListener("mouseenter", () => moveRandom(nobtn));
+            }
+        }
+
+        // "No" button ke liye event listener
+        nobtn.addEventListener("click", handleNoClick);
+
+        // "Yes" button ka event listener
+        yesbtn.addEventListener("click", () => {
+            increment = data.length - 1;
+            showMessage(data, increment);
+        });
+
+
+    </script>
+</body>
+
+</html>
