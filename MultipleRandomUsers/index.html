@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple Random Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+    }
+
+    img {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      font-size: 14px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    .details-container {
+      display: none;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Random Users</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Email</th>
+          <th>Country</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="user-table">
+        <!-- Users will be added here -->
+      </tbody>
+    </table>
+    <button class="btn" onclick="fetchUsers()">Get New Users</button>
+  </div>
+
+  <!-- User Details Section -->
+  <div class="details-container" id="user-details">
+    <h3>User Details</h3>
+    <img id="details-image" src="" alt="User Image">
+    <p><strong>Name:</strong> <span id="details-name"></span></p>
+    <p><strong>Gender:</strong> <span id="details-gender"></span></p>
+    <p><strong>Email:</strong> <span id="details-email"></span></p>
+    <p><strong>Phone:</strong> <span id="details-phone"></span></p>
+    <p><strong>Address:</strong> <span id="details-address"></span></p>
+    <button class="btn" onclick="closeDetails()">Close</button>
+  </div>
+
+  <script>
+    async function fetchUsers() {
+      try {
+        const response = await fetch('https://randomuser.me/api/?results=5');
+        const data = await response.json();
+        const users = data.results;
+
+        let userHTML = "";
+        users.forEach((user, index) => {
+          userHTML += `
+                        <tr>
+                            <td><img src="${user.picture.thumbnail}" alt="User"></td>
+                            <td>${user.name.title} ${user.name.first} ${user.name.last}</td>
+                            <td>${user.gender}</td>
+                            <td>${user.email}</td>
+                            <td>${user.location.country}</td>
+                            <td><button class="btn" onclick="showDetails(${index})">View Details</button></td>
+                        </tr>
+                    `;
+        });
+
+        document.getElementById('user-table').innerHTML = userHTML;
+        window.usersData = users; // Store users globally for later use
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+
+    function showDetails(index) {
+      const user = window.usersData[index];
+      document.getElementById('details-image').src = user.picture.large;
+      document.getElementById('details-name').innerText = `${user.name.title} ${user.name.first} ${user.name.last}`;
+      document.getElementById('details-gender').innerText = user.gender;
+      document.getElementById('details-email').innerText = user.email;
+      document.getElementById('details-phone').innerText = user.phone;
+      document.getElementById('details-address').innerText = `${user.location.street.number} ${user.location.street.name}, ${user.location.city}, ${user.location.country}`;
+
+      document.getElementById('user-details').style.display = 'block';
+    }
+
+    function closeDetails() {
+      document.getElementById('user-details').style.display = 'none';
+    }
+
+    // Load users when page opens
+    fetchUsers();
+  </script>
+
+</body>
+
+</html>
