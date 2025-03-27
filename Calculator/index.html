@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Modern Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-4 flex items-center justify-center h-screen">
+  <div class="w-[420px]   mx-auto bg-red-100 rounded-xl shadow-lg overflow-hidden">
+    <div id="display" class="text-gray-800 text-right p-4 text-3xl font-bold bg-gray-200">0</div>
+    <div class="grid grid-cols-4 gap-2 p-4">
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">7</button>
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">8</button>
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">9</button>
+      <button class="bg-blue-500 text-white rounded-lg py-3 px-4 font-extrabold">+</button>
+
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">4</button>
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">5</button>
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">6</button>
+      <button class="bg-blue-500 text-white rounded-lg py-3 px-4 font-extrabold">-</button>
+
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">1</button>
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">2</button>
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">3</button>
+      <button class="bg-blue-500 text-white rounded-lg py-3 px-4 font-extrabold">*</button>
+
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">0</button>
+      <button class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">.</button>
+      <button id="equal-btn" class="bg-gray-300 text-gray-800 rounded-lg py-3 px-4 font-extrabold">=</button>
+      <button class="bg-blue-500 text-white rounded-lg py-3 px-4 font-extrabold">/</button>
+      <button class="bg-orange-500 text-white rounded-lg py-3 px-4 font-extrabold col-span-4">Clear</button>
+
+    </div>
+  </div>
+  <script>
+    const display = document.querySelector("#display");
+    const buttons = document.querySelectorAll("button");
+    const equalbtn = document.querySelector("#equal-btn");
+
+    // Event listener for button clicks
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const buttonText = button.innerText;
+        if (display.innerText === "0") {
+          display.innerText = "";
+        }
+        // If "=" is clicked, don't add it to the display
+        if (buttonText === "=") return;
+
+        // If "C" is clicked, clear the display
+        if (buttonText === "Clear") {
+          display.innerText = "0";
+          return;
+        }
+
+        // Append button text to display
+        display.innerText += buttonText;
+      });
+    });
+
+    // Function to calculate the result
+    function calculate() {
+      try {
+        let expression = display.innerText;
+        let result = eval(expression);
+        display.innerText = result;
+      } catch (error) {
+        display.innerText = "Error";
+        setTimeout(() => {
+          display.innerText = "0"
+        }, 2000)
+      }
+    }
+
+    // Event listener for "=" button
+    equalbtn.addEventListener("click", calculate);
+
+
+  </script>
+</body>
+
+</html>
