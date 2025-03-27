@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-blue-500 to-purple-600 flex justify-center items-center h-screen">
+  <div class="bg-red-200 dark:bg-gray-800 p-6 rounded-2xl shadow-lg w-[500px] transition-all">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">To-Do List</h1>
+      <button id="darkModeToggle"
+        class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-3 py-1 rounded-md">🌙</button>
+    </div>
+
+    <form class="flex" id="form-conatiner">
+      <input type="text" id="taskInput" placeholder="Enter task..."
+        class="border p-2 w-full rounded-l-md focus:outline-none focus:border-none dark:bg-gray-700 dark:text-white">
+      <button id="addTask" class="bg-green-500 text-white px-4 py-2 rounded-r-md hover:bg-green-600">Add</button>
+    </form>
+
+    <ul id="taskList" class="mt-4 space-y-2"></ul>
+  </div>
+
+  <script>
+    const formConatiner = document.querySelector("#form-conatiner");
+    const taskInput = document.querySelector("#taskInput");
+    const taskList = document.querySelector("#taskList");
+    const darkModeToggle = document.querySelector("#darkModeToggle");
+
+    function createList() {
+      const inputvalue = taskInput.value.trim(); // Trim spaces from the input
+
+      if (inputvalue === "") {
+        alert("Please enter the input...");
+      } else {
+        taskInput.value = ""; // Clear input after adding
+        const li = document.createElement("li");
+        li.classList.add("bg-gray-200", "dark:bg-gray-700", "p-2", "rounded-md", "flex", "justify-between", "items-center", "shadow-md", "transition-all");
+        li.innerHTML = `
+          <span class="task-text">${inputvalue}</span>
+          <button class="delete bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">X</button>
+        `;
+        taskList.append(li);
+        const deleteBtn = li.querySelector(".delete");
+        deleteBtn.addEventListener("click", () => {
+          deleteBtn.parentElement.remove();
+        });
+      }
+    }
+
+    formConatiner.addEventListener("submit", (e) => {
+      e.preventDefault();
+      createList();
+    });
+
+
+    darkModeToggle.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+    });
+  </script>
+</body>
+
+</html>
