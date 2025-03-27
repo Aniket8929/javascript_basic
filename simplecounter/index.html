@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>simplecounter App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white p-6">
+  <nav class="text-2xl flex items-center justify-center gap-3">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <i class="fa-solid fa-gear"></i>
+    <i class="fa-solid fa-arrow-rotate-right" id="refresh"></i>
+  </nav>
+  <div class="flex items-center justify-between" id="main-content">
+    <i id="decrement"
+      class="fa-solid fa-minus font-black text-4xl border border-white h-[70px] w-[70px] rounded-full flex items-center justify-center"></i>
+    <h1 class="text-[25vw] text-center" id="number-text">0</h1>
+    <i id="increment"
+      class="fa-solid fa-plus font-black text-4xl border border-white h-[70px] w-[70px] rounded-full flex items-center justify-center"></i>
+  </div>
+  <script>
+    const increment = document.querySelector("#increment");
+    const decrement = document.querySelector("#decrement");
+    const numberText = document.querySelector("#number-text");
+    const refresh = document.querySelector("#refresh");
+
+    let count = 0;
+
+    increment.addEventListener("click", () => {
+      numberText.innerText = ++count; //  count = count + 1
+    });
+
+    decrement.addEventListener("click", () => {
+      if (count > 0) {
+        numberText.innerText = --count; //  count = count - 1
+      }
+    });
+    refresh.addEventListener("click", () => {
+      count = 0;
+      numberText.innerText = count;
+    })
+  </script>
+</body>
+
+</html>
